@@ -32,7 +32,7 @@ const allNodes = [
 		label: 'Start Node',
 		description: 'The starting point of the flow',
 		type: 'start',
-		className: 'border-green-400'
+		className: 'border-default-400'
 	},
 	{
 		label: 'Action Node',
@@ -64,7 +64,7 @@ const Sidebar = () => {
 	}
 
 	return (
-		<div className='bg-white flex p-3 w-[250px] flex-col justify-between border-l-1'>
+		<div className='bg-white flex p-3 min-w-[250px] flex-col justify-between border-l-1'>
 			<div className='flex flex-col gap-2'>
 				<div className='font-medium'>Available Nodes:</div>
 				<div>

@@ -35,7 +35,7 @@ export const nodes: Node[] = [
 
 export const edges: Edge[] = [
 	{ id: '1-2', source: '1', target: '2' },
-	{ id: '2-3', source: '2', target: '3', sourceHandle: 'yes' },
-	{ id: '2-4', source: '2', target: '4', sourceHandle: 'no' },
+	{ id: '2-3', source: '2', target: '3', sourceHandle: 'TRUTHY' },
+	{ id: '2-4', source: '2', target: '4', sourceHandle: 'FALSY' },
 	{ id: '4-5', source: '4', target: '5' }
 ]

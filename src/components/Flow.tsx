@@ -8,16 +8,21 @@ import {
 	type OnEdgesChange,
 	type OnNodesChange,
 	type OnConnect,
-	useReactFlow
+	useReactFlow,
+	type Node,
+	type NodeMouseHandler,
+	Panel,
+	type Edge
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
-import { useCallback, useContext, type DragEventHandler } from 'react'
+import { useCallback, useContext, useState, type DragEventHandler } from 'react'
 import DecisionNode from './nodes/DecisionNode'
 import ActionNode from './nodes/ActionNode'
 import StartNode from './nodes/StartNode'
 import LeafNode from './nodes/LeafNode'
 import { DataContext } from '../context/DataContextProvider'
 import { DnDContext } from '../context/DnDContextProvider'
+import Drawer from './Drawer'
 
 const nodeTypes = {
 	decision: DecisionNode,
@@ -27,12 +32,15 @@ const nodeTypes = {
 }
 
 function Flow() {
+	const [selectedNode, setSelectedNode] = useState<Node | null>(null)
+	const [editMode, setEditMode] = useState<boolean>(false)
+
 	const { nodes, edges, setNodes, setEdges } = useContext(DataContext)
 	const [type] = useContext(DnDContext)
 	const { screenToFlowPosition } = useReactFlow()
 
 	const onNodesChange: OnNodesChange = useCallback(
-		changes => setNodes((nds: any[]) => applyNodeChanges(changes, nds)),
+		changes => setNodes(nds => applyNodeChanges(changes, nds)),
 		[setNodes]
 	)
 	const onEdgesChange: OnEdgesChange = useCallback(
@@ -44,13 +52,13 @@ function Flow() {
 		[setEdges]
 	)
 
-	const onDragOver: DragEventHandler = useCallback((event) => {
+	const onDragOver: DragEventHandler = useCallback(event => {
 		event.preventDefault()
 		if (event.dataTransfer) event.dataTransfer.dropEffect = 'move'
 	}, [])
 
 	const onDrop: DragEventHandler = useCallback(
-		(event) => {
+		event => {
 			event.preventDefault()
 
 			if (!type) return
@@ -59,17 +67,49 @@ function Flow() {
 				x: event.clientX,
 				y: event.clientY
 			})
+
 			const newNode = {
 				id: `${nodes.length + 1}`,
 				type,
 				position,
-				data: { label: `${type} node` }
+				data: {
+					label: `${type} node ${nodes.length + 1}`
+				}
 			}
 
 			setNodes(nds => nds.concat(newNode))
 		},
-		[nodes.length, screenToFlowPosition, type]
+		[nodes.length, screenToFlowPosition, type, setNodes]
 	)
+
+	const onNodeClick: NodeMouseHandler = useCallback((_, node) => {
+		setSelectedNode(node)
+	}, [])
+
+	const toggleMode = () => setEditMode(prev => !prev)
+
+	const onNodeChange = (node: Node) => {
+		setNodes(nds => nds.map(n => (n.id === node.id ? { ...n, ...node } : n)))
+		if (selectedNode && selectedNode.id === node.id) {
+			setSelectedNode(node)
+		}
+		if (node.type === 'decision') {
+			setEdges(eds =>
+				eds.map(edge => {
+					if (edge.source === node.id) {
+						if (edge.sourceHandle === 'TRUTHY') {
+							return { ...edge, label: node.data.truePathLabel || '' } as Edge
+						}
+						if (edge.sourceHandle === 'FALSY') {
+							return { ...edge, label: node.data.falsePathLabel || '' } as Edge
+						}
+						return edge
+					}
+					return edge
+				})
+			)
+		}
+	}
 
 	return (
 		<div className='w-full h-screen'>
@@ -83,10 +123,27 @@ function Flow() {
 				onConnect={onConnect}
 				onDragOver={onDragOver}
 				onDrop={onDrop}
+				onNodeClick={onNodeClick}
 			>
 				<Background />
 				<Controls />
+				<Panel>
+					<button
+						className='px-3 py-1.5 bg-white rounded-lg shadow-md cursor-pointer'
+						onClick={toggleMode}
+					>
+						{editMode ? 'View' : 'Edit'}
+					</button>
+				</Panel>
 			</ReactFlow>
+			{selectedNode && (
+				<Drawer
+					node={selectedNode}
+					onClose={() => setSelectedNode(null)}
+					editMode={editMode}
+					onNodeChange={onNodeChange}
+				/>
+			)}
 		</div>
 	)
 }
