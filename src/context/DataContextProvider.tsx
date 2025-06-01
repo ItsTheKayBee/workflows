@@ -1,23 +1,28 @@
 import type { Edge, Node } from '@xyflow/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DataContext } from '.'
+import { FlowType, getData } from '../data'
 
-export const DataContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [nodes, setNodes] = useState<Node[]>([
-		{
-			id: '1',
-			position: { x: 0, y: 0 },
-			data: { label: 'Hello' }
-		},
-		{ id: '2', position: { x: 100, y: 100 }, data: { label: 'World' } }
-	])
-  const [edges, setEdges] = useState<Edge[]>([
-    { id: '1-2', source: '1', target: '2' },
-  ])
+export const DataContextProvider = ({
+	children
+}: {
+	children: React.ReactNode
+}) => {
+	const [nodes, setNodes] = useState<Node[]>([])
+	const [edges, setEdges] = useState<Edge[]>([])
 
-  return (
-    <DataContext.Provider value={{ nodes, edges, setNodes, setEdges }}>
-      {children}
-    </DataContext.Provider>
-  )
+	useEffect(() => {
+		const fetchData = async () => {
+			const data = await getData(FlowType.simple)
+			setNodes(data.nodes)
+			setEdges(data.edges)
+		}
+		fetchData()
+	}, [])
+
+	return (
+		<DataContext.Provider value={{ nodes, edges, setNodes, setEdges }}>
+			{children}
+		</DataContext.Provider>
+	)
 }

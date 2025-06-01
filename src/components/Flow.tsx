@@ -12,6 +12,17 @@ import {
 import '@xyflow/react/dist/style.css'
 import { useCallback, useContext } from 'react'
 import { DataContext } from '../context'
+import DecisionNode from './nodes/DecisionNode'
+import ActionNode from './nodes/ActionNode'
+import StartNode from './nodes/StartNode'
+import LeafNode from './nodes/LeafNode'
+
+const nodeTypes = {
+  decision: DecisionNode,
+  action: ActionNode,
+  start: StartNode,
+  leaf: LeafNode
+}
 
 function Flow() {
 	const { nodes, edges, setNodes, setEdges } = useContext(DataContext)
@@ -38,6 +49,7 @@ function Flow() {
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
+        nodeTypes={nodeTypes}
 			>
 				<Background />
 				<Controls />
