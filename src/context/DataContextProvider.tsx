@@ -1,7 +1,24 @@
 import type { Edge, Node } from '@xyflow/react'
-import { useEffect, useState } from 'react'
-import { DataContext } from '.'
+import { useEffect, useState, type Dispatch, type SetStateAction } from 'react'
 import { FlowType, getData } from '../data'
+
+import { createContext } from 'react'
+
+type DataType = {
+	nodes: Node[]
+	edges: Edge[]
+	setNodes: Dispatch<SetStateAction<Node[]>>
+	setEdges: Dispatch<SetStateAction<Edge[]>>
+	reset: () => void
+}
+
+export const DataContext = createContext<DataType>({
+	nodes: [],
+	edges: [],
+	setNodes: () => {},
+	setEdges: () => {},
+	reset: () => {}
+})
 
 export const DataContextProvider = ({
 	children
@@ -10,6 +27,11 @@ export const DataContextProvider = ({
 }) => {
 	const [nodes, setNodes] = useState<Node[]>([])
 	const [edges, setEdges] = useState<Edge[]>([])
+
+	const reset = () => {
+		setNodes([])
+		setEdges([])
+	}
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -21,7 +43,7 @@ export const DataContextProvider = ({
 	}, [])
 
 	return (
-		<DataContext.Provider value={{ nodes, edges, setNodes, setEdges }}>
+		<DataContext.Provider value={{ nodes, edges, setNodes, setEdges, reset }}>
 			{children}
 		</DataContext.Provider>
 	)
