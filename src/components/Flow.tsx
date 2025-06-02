@@ -23,6 +23,7 @@ import LeafNode from './nodes/LeafNode'
 import { DataContext } from '../context/DataContextProvider'
 import { DnDContext } from '../context/DnDContextProvider'
 import Drawer from './Drawer'
+import useCollapsible from '../hooks/useCollapsible'
 
 const nodeTypes = {
 	decision: DecisionNode,
@@ -34,6 +35,8 @@ const nodeTypes = {
 function Flow() {
 	const [selectedNode, setSelectedNode] = useState<Node | null>(null)
 	const [editMode, setEditMode] = useState<boolean>(false)
+
+	const { focusedNode, setFocusedNode, resetFocus } = useCollapsible()
 
 	const { nodes, edges, setNodes, setEdges } = useContext(DataContext)
 	const [type] = useContext(DnDContext)
@@ -111,6 +114,24 @@ function Flow() {
 		}
 	}
 
+	const onNodeDoubleClick: NodeMouseHandler = useCallback(
+		(_, node) => {
+			if (node.type === 'start') return
+
+			if (focusedNode?.id) {
+				if (focusedNode.id === node.id) {
+					setFocusedNode(null)
+				} else {
+					resetFocus()
+					setFocusedNode(node)
+				}
+			} else {
+				setFocusedNode(node)
+			}
+		},
+		[setFocusedNode, focusedNode?.id]
+	)
+
 	return (
 		<div className='w-full h-screen'>
 			<ReactFlow
@@ -125,6 +146,7 @@ function Flow() {
 				onDragOver={onDragOver}
 				onDrop={onDrop}
 				onNodeClick={onNodeClick}
+				onNodeDoubleClick={onNodeDoubleClick}
 			>
 				<Background />
 				<Controls />

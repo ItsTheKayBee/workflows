@@ -1,13 +1,15 @@
 const BaseNode = ({
 	className,
-	children
+	children,
+	focused = false,
 }: {
 	className?: string
 	children: React.ReactNode
+	focused?: boolean
 }) => {
 	return (
 		<div
-			className={`bg-white rounded-lg min-w-20 p-2 border-1 text-xs ${className}`}
+			className={`rounded-lg min-w-20 p-2 border-1 text-xs ${className} ${focused ? 'bg-blue-200 text-blue-500' : 'bg-white text-black'}`}
 		>
 			{children}
 		</div>

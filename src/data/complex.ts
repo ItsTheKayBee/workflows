@@ -37,8 +37,8 @@ export const nodes: Node[] = [
 	{
 		id: '4',
 		position: {
-			x: 256.4779730534566,
-			y: 183.39060621220295
+			x: 256,
+			y: 183
 		},
 		data: {
 			label: 'Action'
@@ -51,8 +51,8 @@ export const nodes: Node[] = [
 		id: '5',
 		type: 'action',
 		position: {
-			x: -11.618889551767488,
-			y: 279.613861395777
+			x: -11,
+			y: 279
 		},
 		data: {
 			label: 'action node 5'
@@ -64,8 +64,8 @@ export const nodes: Node[] = [
 		id: '6',
 		type: 'action',
 		position: {
-			x: 253.06695483618904,
-			y: 276.0853526884513
+			x: 253,
+			y: 276
 		},
 		data: {
 			label: 'action node 6'
@@ -77,8 +77,8 @@ export const nodes: Node[] = [
 		id: '7',
 		type: 'action',
 		position: {
-			x: 624.4343851398951,
-			y: 271.6985624735572
+			x: 624,
+			y: 271
 		},
 		data: {
 			label: 'action node 7'
@@ -90,8 +90,8 @@ export const nodes: Node[] = [
 		id: '8',
 		type: 'action',
 		position: {
-			x: -185.38663401671556,
-			y: 356.33121795394635
+			x: -185,
+			y: 356
 		},
 		data: {
 			label: 'action node 8'
@@ -103,8 +103,8 @@ export const nodes: Node[] = [
 		id: '9',
 		type: 'action',
 		position: {
-			x: -68.52471118058122,
-			y: 356.8860978714938
+			x: -68,
+			y: 356
 		},
 		data: {
 			label: 'action node 9'
@@ -116,8 +116,8 @@ export const nodes: Node[] = [
 		id: '10',
 		type: 'action',
 		position: {
-			x: 35.36636294561069,
-			y: 356.87746217433664
+			x: 35,
+			y: 356
 		},
 		data: {
 			label: 'action node 10'
@@ -129,8 +129,8 @@ export const nodes: Node[] = [
 		id: '11',
 		type: 'action',
 		position: {
-			x: 159.72785067527207,
-			y: 356.63004764005797
+			x: 159,
+			y: 356
 		},
 		data: {
 			label: 'action node 11'
@@ -142,8 +142,8 @@ export const nodes: Node[] = [
 		id: '12',
 		type: 'action',
 		position: {
-			x: 272.49689270821005,
-			y: 356.6300476400581
+			x: 272,
+			y: 356
 		},
 		data: {
 			label: 'action node 12'
@@ -155,8 +155,8 @@ export const nodes: Node[] = [
 		id: '13',
 		type: 'action',
 		position: {
-			x: 385.265934741148,
-			y: 354.0075117788269
+			x: 385,
+			y: 354
 		},
 		data: {
 			label: 'action node 13'
@@ -168,8 +168,8 @@ export const nodes: Node[] = [
 		id: '14',
 		type: 'action',
 		position: {
-			x: 516.3927278027038,
-			y: 355.75586901964766
+			x: 516,
+			y: 355
 		},
 		data: {
 			label: 'action node 14'
@@ -181,8 +181,8 @@ export const nodes: Node[] = [
 		id: '15',
 		type: 'action',
 		position: {
-			x: 634.406841558104,
-			y: 352.2591545380061
+			x: 634,
+			y: 352
 		},
 		data: {
 			label: 'action node 15'
@@ -194,8 +194,8 @@ export const nodes: Node[] = [
 		id: '16',
 		type: 'action',
 		position: {
-			x: 756.7918484155562,
-			y: 349.636618676775
+			x: 756,
+			y: 349
 		},
 		data: {
 			label: 'action node 16'
@@ -207,8 +207,8 @@ export const nodes: Node[] = [
 		id: '17',
 		type: 'leaf',
 		position: {
-			x: -179.96616058398723,
-			y: 441.020156498447
+			x: -179,
+			y: 441
 		},
 		data: {
 			label: 'leaf node 17'
@@ -220,8 +220,8 @@ export const nodes: Node[] = [
 		id: '18',
 		type: 'leaf',
 		position: {
-			x: -13.058171326886743,
-			y: 444.86000713681113
+			x: -70,
+			y: 444
 		},
 		data: {
 			label: 'leaf node 18'
@@ -231,8 +231,8 @@ export const nodes: Node[] = [
 		id: '19',
 		type: 'leaf',
 		position: {
-			x: 169.20636904838486,
-			y: 439.67445203739504
+			x: 169,
+			y: 439
 		},
 		data: {
 			label: 'leaf node 19'
@@ -244,8 +244,8 @@ export const nodes: Node[] = [
 		id: '20',
 		type: 'leaf',
 		position: {
-			x: 304.46476872509254,
-			y: 447.7776610307859
+			x: 304,
+			y: 447
 		},
 		data: {
 			label: 'leaf node 20'
@@ -257,8 +257,8 @@ export const nodes: Node[] = [
 		id: '21',
 		type: 'leaf',
 		position: {
-			x: 439.4145957722118,
-			y: 439.91529218070707
+			x: 439,
+			y: 439
 		},
 		data: {
 			label: 'leaf node 21'
@@ -270,8 +270,8 @@ export const nodes: Node[] = [
 		id: '22',
 		type: 'leaf',
 		position: {
-			x: 567.2521465734189,
-			y: 438.98705666437866
+			x: 567,
+			y: 438
 		},
 		data: {
 			label: 'leaf node 22'
@@ -283,8 +283,8 @@ export const nodes: Node[] = [
 		id: '23',
 		type: 'leaf',
 		position: {
-			x: 691.9312033373391,
-			y: 441.56353049940833
+			x: 691,
+			y: 441
 		},
 		data: {
 			label: 'leaf node 23'
@@ -296,11 +296,24 @@ export const nodes: Node[] = [
 		id: '24',
 		type: 'leaf',
 		position: {
-			x: 802.9477085201504,
-			y: 429.37610957996543
+			x: 802,
+			y: 429
 		},
 		data: {
 			label: 'leaf node 24'
+		},
+		selected: false,
+		dragging: false
+	},
+	{
+		id: '25',
+		type: 'leaf',
+		position: {
+			x: 45,
+			y: 441
+		},
+		data: {
+			label: 'leaf node 25'
 		},
 		selected: false,
 		dragging: false
@@ -397,8 +410,8 @@ export const edges: Edge[] = [
 	},
 	{
 		source: '10',
-		target: '18',
-		id: 'xy-edge__10-18'
+		target: '25',
+		id: 'xy-edge__10-25'
 	},
 	{
 		source: '11',

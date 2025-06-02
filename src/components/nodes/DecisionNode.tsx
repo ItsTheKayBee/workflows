@@ -13,13 +13,14 @@ export type DecisionNode = Node<
 		condition: Condition
 		truePathLabel?: string
 		falsePathLabel?: string
+		focused?: boolean
 	},
 	'decision'
 >
 
 const DecisionNode = ({ data }: NodeProps<DecisionNode>) => {
 	return (
-		<BaseNode className='border-orange-400'>
+		<BaseNode className='border-orange-400' focused={data.focused}>
 			<Handle type='target' position={Position.Top} />
 			<div>{data.label}</div>
 			<Handle
