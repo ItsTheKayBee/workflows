@@ -117,6 +117,7 @@ function Flow() {
 				nodes={nodes}
 				edges={edges}
 				fitView
+				snapToGrid
 				nodeTypes={nodeTypes}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}

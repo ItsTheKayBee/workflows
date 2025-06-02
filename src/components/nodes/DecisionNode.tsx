@@ -1,23 +1,16 @@
 import { Handle, Position, type Node, type NodeProps } from '@xyflow/react'
 import BaseNode from './BaseNode'
 
-type Condition = {
+export type Condition = {
 	leftHand: string
 	operator: string
 	rightHand: string
 }
 
-type Logic = 'AND' | 'OR'
-
-type ConditionGroup = {
-	logic: Logic
-	conditions: (Condition | ConditionGroup)[]
-}
-
 export type DecisionNode = Node<
 	{
 		label: string
-		condition: Condition | ConditionGroup
+		condition: Condition
 		truePathLabel?: string
 		falsePathLabel?: string
 	},

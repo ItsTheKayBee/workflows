@@ -1,23 +1,26 @@
 import { useContext, type DragEventHandler } from 'react'
 import { DnDContext } from '../context/DnDContextProvider'
 import { DataContext } from '../context/DataContextProvider'
+import { FlowType, getData } from '../data'
 
 const DummyNode = ({
 	label,
 	description,
 	className,
 	onDragStart,
-  isDisabled = false
+	isDisabled = false
 }: {
 	label: string
 	description: string
 	className: string
 	onDragStart: DragEventHandler
-  isDisabled?: boolean
+	isDisabled?: boolean
 }) => {
 	return (
 		<div
-			className={`border-2 rounded-md p-2 mb-2 ${className} ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+			className={`border-2 rounded-md p-2 mb-2 ${className} ${
+				isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+			}`}
 			draggable={!isDisabled}
 			onDragStart={onDragStart}
 		>
@@ -56,11 +59,19 @@ const allNodes = [
 
 const Sidebar = () => {
 	const [_, setType] = useContext(DnDContext)
-	const { nodes, reset } = useContext(DataContext)
+	const { nodes, reset, setNodes, setEdges } = useContext(DataContext)
 
 	const onDragStart = (event: React.DragEvent, nodeType: string) => {
 		setType(nodeType)
 		event.dataTransfer.effectAllowed = 'move'
+	}
+
+	const handleDataChange = async (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		const { nodes, edges } = await getData(event.target.value as FlowType)
+		setNodes(nodes)
+		setEdges(edges)
 	}
 
 	return (
@@ -73,12 +84,24 @@ const Sidebar = () => {
 							key={index}
 							{...node}
 							onDragStart={event => onDragStart(event, node.type)}
-              isDisabled={node.type === 'start' && nodes.some(n => n.type === 'start')}
+							isDisabled={
+								node.type === 'start' && nodes.some(n => n.type === 'start')
+							}
 						/>
 					))}
 				</div>
 			</div>
 			<div className='flex flex-col gap-2 mt-2'>
+				<div className='font-medium'>Choose dummy data</div>
+				<select
+					onChange={handleDataChange}
+					className='border rounded-md p-2 mb-4'
+				>
+					<option value=''>Select dummy data</option>
+					<option value='simple'>Simple</option>
+					<option value='complex'>Complex</option>
+				</select>
+
 				<button
 					className='border border-stone-900 rounded-md p-1'
 					onClick={() => {
