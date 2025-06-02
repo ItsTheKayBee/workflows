@@ -10,7 +10,7 @@ function App() {
 		<ReactFlowProvider>
 			<DnDProvider>
 				<DataContextProvider>
-					<div className='flex'>
+					<div className='flex justify-between w-full'>
 						<Flow />
 						<Sidebar />
 					</div>

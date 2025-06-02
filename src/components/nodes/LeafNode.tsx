@@ -8,7 +8,9 @@ export type LeafNode = Node<{
 
 const LeafNode = ({ data }: NodeProps<LeafNode>) => {
   return (
-		<BaseNode className={`border-${data.type === 'success' ? 'green' : 'red'}-400`}>
+		<BaseNode
+			className={`${data.type === 'success' ? 'border-green-400' : 'border-red-400'}`}
+		>
 			<Handle type='target' position={Position.Top} />
 			<div>{data.label}</div>
 		</BaseNode>
