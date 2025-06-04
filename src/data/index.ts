@@ -1,9 +1,11 @@
 import type { Edge, Node } from '@xyflow/react'
 
-export enum FlowType {
-	simple = 'simple',
-	complex = 'complex'
-}
+export type FlowType = 'simple' | 'complex';
+
+export const FlowType = {
+	simple: 'simple' as FlowType,
+	complex: 'complex' as FlowType
+};
 
 export const getData = async (
 	type: FlowType
