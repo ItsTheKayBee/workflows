@@ -1,110 +1,111 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { DataContext } from '../context/DataContextProvider'
-import type { Node } from '@xyflow/react'
+import type { Edge, Node } from '@xyflow/react'
 
 const useCollapsible = () => {
-	const [focusedNode, setFocusedNode] = useState<Node | null>(null)
+	const [collapsedNodes, setCollapsedNodes] = useState<Node[] | null>(null)
 
 	const { nodes, setNodes, edges, setEdges } = useContext(DataContext)
 
-	const hideNodesAndEdges = useCallback(
-		(parentNode: Node | undefined) => {
-			if (!parentNode) return
+	const collapseSubtrees = useCallback((
+		parentNode: Node | undefined,
+		collapse = true,
+		currentNodes = nodes,
+		currentEdges = edges
+	) => {
+		if (!parentNode) return
 
-			const outgoingEdges = edges.filter(edge => edge.source === parentNode.id)
+		const outgoingEdges = currentEdges.filter(
+			edge => edge.source === parentNode.id
+		)
 
-			if (outgoingEdges.length === 0) return
+		if (outgoingEdges.length === 0) return
 
-			const children: Node[] = []
+		const children: Node[] = []
 
-			outgoingEdges.forEach(edge => {
-				const child = nodes.find(
-					node =>
-						node.id === edge.target &&
-						edge.source === parentNode.id &&
-						node.id !== focusedNode?.id
-				)
-				if (child) {
-					children.push(child)
-				}
-			})
+		outgoingEdges.forEach(edge => {
+			const child = currentNodes.find(node => node.id === edge.target)
+			if (child) {
+				children.push(child)
+			}
+		})
 
-			setNodes(node => {
-				return node.map(n => {
-					if (
-						children.find(
-							child => child.id === n.id && n.id !== focusedNode?.id
-						)
-					) {
-						return {
-							...n,
-							hidden: true
-						}
+		setNodes(node =>
+			node.map(n => {
+				if (children.find(child => child.id === n.id)) {
+					return {
+						...n,
+						hidden: collapse
 					}
-					if (n.id === focusedNode?.id) {
+				}
+				if (
+					n.id === parentNode.id &&
+					collapsedNodes?.find(c => c.id === n.id)
+				) {
+					if (collapse) {
 						return {
 							...n,
 							data: {
 								...n.data,
-								focused: true
+								collapsed: true,
+								summary: `${children.length} subtrees`
 							}
+						}
+					}
+				}
+				return n
+			})
+		)
+
+		setEdges(edge => {
+			return edge.map(e => {
+				if (outgoingEdges.find(outgoingEdge => outgoingEdge.id === e.id)) {
+					return {
+						...e,
+						hidden: collapse
+					}
+				}
+				return e
+			})
+		})
+
+		children.forEach(child => {
+			collapseSubtrees(child, collapse, currentNodes, currentEdges)
+		})
+	}, [collapsedNodes, edges, nodes, setEdges, setNodes])
+
+	const resetCollapse = useCallback(
+		(node: Node, currentNodes: Node[], currentEdges: Edge[]) => {
+			setNodes(nodes =>
+				nodes.map(n => {
+					if (n.id === node.id) {
+						return {
+							...n,
+							data: { ...n.data, collapsed: false, summary: undefined }
 						}
 					}
 					return n
 				})
-			})
-
-			setEdges(edge => {
-				return edge.map(e => {
-					if (
-						outgoingEdges.find(
-							outgoingEdge =>
-								outgoingEdge.id === e.id && e.target !== focusedNode?.id
-						)
-					) {
-						return {
-							...e,
-							hidden: true
-						}
-					}
-					return e
-				})
-			})
-
-			children.forEach(child => {
-				hideNodesAndEdges(child)
-			})
+			)
+			collapseSubtrees(node, false, currentNodes, currentEdges)
 		},
-		[edges, nodes, setEdges, setNodes, focusedNode?.id]
+		[setEdges, setNodes]
 	)
 
-  const resetFocus = useCallback(() => {
-		setNodes(nodes =>
-			nodes.map(node => ({
-				...node,
-				hidden: false,
-				data: { ...node.data, focused: false }
-			}))
-		)
-		setEdges(edges => edges.map(edge => ({ ...edge, hidden: false })))
-	}, [setEdges, setNodes])
-
 	useEffect(() => {
-		if (focusedNode) {
-			const incomingEdge = edges.find(edge => edge.target === focusedNode.id)
-
-			const parentNode = nodes.find(node => node.id === incomingEdge?.source)
-
-			hideNodesAndEdges(parentNode)
-		} else {
-			resetFocus()
+		if (collapsedNodes) {
+			collapsedNodes.forEach(node => {
+				if (!node.data.collapsed) {
+					collapseSubtrees(node, true)
+				}
+			})
 		}
-	}, [focusedNode])
+	}, [collapsedNodes])
 
 	return {
-		focusedNode,
-		setFocusedNode,
-    resetFocus
+		collapsedNodes,
+		setCollapsedNodes,
+		resetCollapse
 	}
 }
 

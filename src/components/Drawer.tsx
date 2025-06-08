@@ -21,7 +21,9 @@ const Drawer = ({
 	return (
 		<div className='absolute right-0 top-0 w-[350px] h-full bg-white p-4 shadow-lg z-10 rounded-2xl'>
 			<div className='relative flex items-center justify-between mb-4'>
-				<h2 className='text-lg font-semibold'>{node ? 'Node' : 'Edge'} Details</h2>
+				<h2 className='text-lg font-semibold'>
+					{node ? 'Node' : 'Edge'} Details
+				</h2>
 				<button className='text-2xl cursor-pointer' onClick={onClose}>
 					&times;
 				</button>

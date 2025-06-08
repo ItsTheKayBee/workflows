@@ -5,7 +5,8 @@ export type ActionNode = Node<
 	{
 		label: string
 		actionType: string
-		focused?: boolean
+		collapsed?: boolean
+		summary?: string
 		extra?: {
 			[key: string]: any
 		}
@@ -15,7 +16,11 @@ export type ActionNode = Node<
 
 const ActionNode = ({ data }: NodeProps<ActionNode>) => {
 	return (
-		<BaseNode className='border-blue-400' focused={data.focused}>
+		<BaseNode
+			className='border-blue-400'
+			collapsed={data.collapsed}
+			summary={data.summary}
+		>
 			<Handle type='target' position={Position.Top} />
 			<div>{data.label}</div>
 			<Handle type='source' position={Position.Bottom} />

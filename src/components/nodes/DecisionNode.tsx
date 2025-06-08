@@ -10,14 +10,19 @@ export type Condition = {
 export type DecisionNode = Node<
 	{
 		label: string
-		focused?: boolean
+		collapsed?: boolean
+		summary?: string
 	},
 	'decision'
 >
 
 const DecisionNode = ({ data }: NodeProps<DecisionNode>) => {
 	return (
-		<BaseNode className='border-orange-400' focused={data.focused}>
+		<BaseNode
+			className='border-orange-400'
+			collapsed={data.collapsed}
+			summary={data.summary}
+		>
 			<Handle type='target' position={Position.Top} />
 			<div>{data.label}</div>
 			<Handle type='source' position={Position.Bottom} />

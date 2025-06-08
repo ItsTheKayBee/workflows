@@ -43,7 +43,7 @@ function Flow() {
 	const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null)
 	const [editMode, setEditMode] = useState<boolean>(false)
 
-	const { focusedNode, setFocusedNode, resetFocus } = useCollapsible()
+	const { collapsedNodes, setCollapsedNodes, resetCollapse } = useCollapsible()
 
 	const { nodes, edges, setNodes, setEdges } = useContext(DataContext)
 	const [type] = useContext(DnDContext)
@@ -124,18 +124,14 @@ function Flow() {
 		(_, node) => {
 			if (node.type === 'start') return
 
-			if (focusedNode?.id) {
-				if (focusedNode.id === node.id) {
-					setFocusedNode(null)
-				} else {
-					resetFocus()
-					setFocusedNode(node)
-				}
+			if (collapsedNodes?.find(n => n.id === node.id)) {
+				setCollapsedNodes(prev => prev && prev.filter(n => n.id !== node.id))
+				resetCollapse(node, nodes, edges)
 			} else {
-				setFocusedNode(node)
+				setCollapsedNodes(prev => [...(prev || []), node])
 			}
 		},
-		[setFocusedNode, focusedNode?.id]
+		[collapsedNodes, setCollapsedNodes, nodes, edges]
 	)
 
 	const onEdgeClick: EdgeMouseHandler = useCallback((_, edge) => {
