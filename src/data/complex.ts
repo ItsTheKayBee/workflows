@@ -37,15 +37,13 @@ export const nodes: Node[] = [
 	{
 		id: '4',
 		position: {
-			x: 256,
+			x: 206,
 			y: 183
 		},
 		data: {
 			label: 'Action'
 		},
-		type: 'action',
-		selected: false,
-		dragging: false
+		type: 'action'
 	},
 	{
 		id: '5',
@@ -56,9 +54,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 5'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '6',
@@ -69,9 +65,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 6'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '7',
@@ -82,9 +76,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 7'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '8',
@@ -95,9 +87,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 8'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '9',
@@ -108,9 +98,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 9'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '10',
@@ -121,9 +109,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 10'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '11',
@@ -134,9 +120,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 11'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '12',
@@ -147,9 +131,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 12'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '13',
@@ -160,9 +142,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 13'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '14',
@@ -173,9 +153,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 14'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '15',
@@ -186,9 +164,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 15'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '16',
@@ -199,9 +175,29 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'action node 16'
+		}
+	},
+	{
+		id: '26',
+		type: 'action',
+		position: {
+			x: 400,
+			y: 183
 		},
-		selected: false,
-		dragging: false
+		data: {
+			label: 'action node 26'
+		}
+	},
+	{
+		id: '27',
+		type: 'action',
+		position: {
+			x: 520,
+			y: 183
+		},
+		data: {
+			label: 'action node 27'
+		}
 	},
 	{
 		id: '17',
@@ -213,8 +209,7 @@ export const nodes: Node[] = [
 		data: {
 			label: 'leaf node 17'
 		},
-		selected: true,
-		dragging: false
+		selected: true
 	},
 	{
 		id: '18',
@@ -236,9 +231,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 19'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '20',
@@ -249,9 +242,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 20'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '21',
@@ -262,9 +253,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 21'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '22',
@@ -275,9 +264,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 22'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '23',
@@ -288,9 +275,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 23'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '24',
@@ -301,9 +286,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 24'
-		},
-		selected: false,
-		dragging: false
+		}
 	},
 	{
 		id: '25',
@@ -314,9 +297,7 @@ export const nodes: Node[] = [
 		},
 		data: {
 			label: 'leaf node 25'
-		},
-		selected: false,
-		dragging: false
+		}
 	}
 ]
 
@@ -336,6 +317,18 @@ export const edges: Edge[] = [
 		id: '2-4',
 		source: '2',
 		target: '4',
+		type: 'decision'
+	},
+	{
+		id: '2-26',
+		source: '2',
+		target: '26',
+		type: 'decision'
+	},
+	{
+		id: '2-27',
+		source: '2',
+		target: '27',
 		type: 'decision'
 	},
 	{
