@@ -1,4 +1,6 @@
-import type { Condition, DecisionNode } from '../nodes/DecisionNode'
+import type { Edge } from '@xyflow/react'
+import type { Condition } from '../nodes/DecisionNode'
+import type { DecisionEdge } from '../edges/DecisionEdge'
 
 const properties = [
 	{
@@ -118,70 +120,34 @@ const Condition = ({
 	)
 }
 
-const DecisionForm = ({
-	node,
-	onNodeChange
+const DecisionEdgeForm = ({
+	edge,
+	onEdgeChange
 }: {
-	node: DecisionNode | undefined
-	onNodeChange: (node: DecisionNode) => void
+	edge: DecisionEdge | null
+	onEdgeChange: (edge: Edge) => void
 }) => {
-	if (!node) return null
-
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement>,
-		key: string
-	) => {
-		const { value } = e.target
-		const updatedNode = {
-			...node,
-			data: {
-				...node.data,
-				[key]: value
-			}
-		}
-		onNodeChange(updatedNode)
-	}
+	if (!edge) return null
 
 	const handleConditionChange = (condition: Condition) => {
-		console.log(condition)
-		const updatedNode = {
-			...node,
+		const updatedEdge = {
+			...edge,
 			data: {
-				...node.data,
+				...edge.data,
 				condition
 			}
 		}
-		onNodeChange(updatedNode as DecisionNode)
+		onEdgeChange(updatedEdge)
 	}
 
 	return (
-		<>
-			<Condition
-				condition={
-					node.data.condition || { leftHand: '', operator: '', rightHand: '' }
-				}
-				onConditionChange={handleConditionChange}
-			/>
-			<div className='flex flex-col space-y-1'>
-				<label>True path label</label>
-				<input
-					type='text'
-					value={node.data.truePathLabel || ''}
-					className='border rounded-md p-2'
-					onChange={e => handleChange(e, 'truePathLabel')}
-				/>
-			</div>
-			<div className='flex flex-col space-y-1'>
-				<label>False path label</label>
-				<input
-					type='text'
-					value={node.data.falsePathLabel || ''}
-					className='border rounded-md p-2'
-					onChange={e => handleChange(e, 'falsePathLabel')}
-				/>
-			</div>
-		</>
+		<Condition
+			condition={
+				edge.data?.condition || { leftHand: '', operator: '', rightHand: '' }
+			}
+			onConditionChange={handleConditionChange}
+		/>
 	)
 }
 
-export default DecisionForm
+export default DecisionEdgeForm

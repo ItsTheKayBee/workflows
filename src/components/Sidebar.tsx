@@ -18,7 +18,7 @@ const DummyNode = ({
 }) => {
 	return (
 		<div
-			className={`border-2 rounded-md p-2 mb-2 ${className} ${
+			className={`border-2 rounded-md p-2 mb-2 cursor-move ${className} ${
 				isDisabled ? 'opacity-50 cursor-not-allowed' : ''
 			}`}
 			draggable={!isDisabled}
@@ -76,8 +76,13 @@ const Sidebar = () => {
 
 	return (
 		<div className='bg-white flex p-3 min-w-[250px] flex-col justify-between border-l-1'>
-			<div className='flex flex-col gap-2'>
-				<div className='font-medium'>Available Nodes:</div>
+			<div className='flex flex-col gap-3'>
+				<div>
+					<div className='font-medium'>Available Nodes:</div>
+					<p className='text-sm text-gray-500'>
+						Drag and drop nodes in the canvas.
+					</p>
+				</div>
 				<div>
 					{allNodes.map((node, index) => (
 						<DummyNode

@@ -12,7 +12,8 @@ import {
 	type Node,
 	type NodeMouseHandler,
 	Panel,
-	type Edge
+	type Edge,
+	type EdgeMouseHandler
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { useCallback, useContext, useState, type DragEventHandler } from 'react'
@@ -24,6 +25,7 @@ import { DataContext } from '../context/DataContextProvider'
 import { DnDContext } from '../context/DnDContextProvider'
 import Drawer from './Drawer'
 import useCollapsible from '../hooks/useCollapsible'
+import DecisionEdge from './edges/DecisionEdge'
 
 const nodeTypes = {
 	decision: DecisionNode,
@@ -32,8 +34,13 @@ const nodeTypes = {
 	leaf: LeafNode
 }
 
+const edgeTypes = {
+	decision: DecisionEdge
+}
+
 function Flow() {
 	const [selectedNode, setSelectedNode] = useState<Node | null>(null)
+	const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null)
 	const [editMode, setEditMode] = useState<boolean>(false)
 
 	const { focusedNode, setFocusedNode, resetFocus } = useCollapsible()
@@ -46,13 +53,27 @@ function Flow() {
 		changes => setNodes(nds => applyNodeChanges(changes, nds)),
 		[setNodes]
 	)
+
 	const onEdgesChange: OnEdgesChange = useCallback(
 		changes => setEdges(eds => applyEdgeChanges(changes, eds)),
 		[setEdges]
 	)
+
 	const onConnect: OnConnect = useCallback(
-		connection => setEdges(eds => addEdge(connection, eds)),
-		[setEdges]
+		connection => {
+			const isDecisionEdge =
+				nodes.find(n => n.id === connection.source)?.type === 'decision'
+			setEdges(eds =>
+				addEdge(
+					{
+						...connection,
+						type: isDecisionEdge ? 'decision' : 'default'
+					},
+					eds
+				)
+			)
+		},
+		[nodes, setEdges]
 	)
 
 	const onDragOver: DragEventHandler = useCallback(event => {
@@ -86,6 +107,7 @@ function Flow() {
 	)
 
 	const onNodeClick: NodeMouseHandler = useCallback((_, node) => {
+		setSelectedEdge(null)
 		setSelectedNode(node)
 	}, [])
 
@@ -95,22 +117,6 @@ function Flow() {
 		setNodes(nds => nds.map(n => (n.id === node.id ? { ...n, ...node } : n)))
 		if (selectedNode && selectedNode.id === node.id) {
 			setSelectedNode(node)
-		}
-		if (node.type === 'decision') {
-			setEdges(eds =>
-				eds.map(edge => {
-					if (edge.source === node.id) {
-						if (edge.sourceHandle === 'TRUTHY') {
-							return { ...edge, label: node.data.truePathLabel || '' } as Edge
-						}
-						if (edge.sourceHandle === 'FALSY') {
-							return { ...edge, label: node.data.falsePathLabel || '' } as Edge
-						}
-						return edge
-					}
-					return edge
-				})
-			)
 		}
 	}
 
@@ -132,6 +138,18 @@ function Flow() {
 		[setFocusedNode, focusedNode?.id]
 	)
 
+	const onEdgeClick: EdgeMouseHandler = useCallback((_, edge) => {
+		setSelectedNode(null)
+		setSelectedEdge(edge)
+	}, [])
+
+	const onEdgeChange = (edge: Edge) => {
+		setEdges(eds => eds.map(e => (e.id === edge.id ? { ...e, ...edge } : e)))
+		if (selectedEdge && selectedEdge.id === edge.id) {
+			setSelectedEdge(edge)
+		}
+	}
+
 	return (
 		<div className='w-full h-screen'>
 			<ReactFlow
@@ -140,12 +158,14 @@ function Flow() {
 				fitView
 				snapToGrid
 				nodeTypes={nodeTypes}
+				edgeTypes={edgeTypes}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}
 				onDragOver={onDragOver}
 				onDrop={onDrop}
 				onNodeClick={onNodeClick}
+				onEdgeClick={onEdgeClick}
 				onNodeDoubleClick={onNodeDoubleClick}
 			>
 				<Background />
@@ -159,12 +179,17 @@ function Flow() {
 					</button>
 				</Panel>
 			</ReactFlow>
-			{selectedNode && (
+			{(selectedNode || selectedEdge) && (
 				<Drawer
 					node={selectedNode}
-					onClose={() => setSelectedNode(null)}
+					edge={selectedEdge}
+					onClose={() => {
+						setSelectedNode(null)
+						setSelectedEdge(null)
+					}}
 					editMode={editMode}
 					onNodeChange={onNodeChange}
+					onEdgeChange={onEdgeChange}
 				/>
 			)}
 		</div>

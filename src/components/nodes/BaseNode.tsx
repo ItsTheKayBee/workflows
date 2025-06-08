@@ -9,7 +9,7 @@ const BaseNode = ({
 }) => {
 	return (
 		<div
-			className={`rounded-lg min-w-20 p-2 border-1 text-xs ${className} ${focused ? 'bg-blue-200 text-blue-500' : 'bg-white text-black'}`}
+			className={`rounded-md min-w-20 p-2 border-1 text-xs ${className} ${focused ? 'bg-blue-200 text-blue-500' : 'bg-white text-black'}`}
 		>
 			{children}
 		</div>

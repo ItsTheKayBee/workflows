@@ -330,13 +330,13 @@ export const edges: Edge[] = [
 		id: '2-3',
 		source: '2',
 		target: '3',
-		sourceHandle: 'TRUTHY'
+		type: 'decision'
 	},
 	{
 		id: '2-4',
 		source: '2',
 		target: '4',
-		sourceHandle: 'FALSY'
+		type: 'decision'
 	},
 	{
 		id: '4-5',

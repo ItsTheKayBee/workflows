@@ -10,9 +10,6 @@ export type Condition = {
 export type DecisionNode = Node<
 	{
 		label: string
-		condition: Condition
-		truePathLabel?: string
-		falsePathLabel?: string
 		focused?: boolean
 	},
 	'decision'
@@ -23,18 +20,7 @@ const DecisionNode = ({ data }: NodeProps<DecisionNode>) => {
 		<BaseNode className='border-orange-400' focused={data.focused}>
 			<Handle type='target' position={Position.Top} />
 			<div>{data.label}</div>
-			<Handle
-				type='source'
-				position={Position.Bottom}
-				id='TRUTHY'
-				className='!bg-green-500 !left-[30%]'
-			/>
-			<Handle
-				type='source'
-				position={Position.Bottom}
-				id='FALSY'
-				className='!bg-red-500 !left-[70%]'
-			/>
+			<Handle type='source' position={Position.Bottom} />
 		</BaseNode>
 	)
 }
